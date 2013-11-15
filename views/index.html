@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <title>Bottle Peewee BBS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap-theme.min.css">
+    <link type="text/css" rel="stylesheet" href="/static/css/common.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="/">Home</a></li>
+          <li><a href="#new">New</a></li>
+          <li><a href="#remove">Remove</a></li>
+        </ul>
+        <h3 class="text-muted">Sample BBS</h3>
+      </div>
+
+      <div class="row marketing">
+	<div style="text-align: center;">
+	  <ul class="pagination pagination-lg">
+	    % for page in range( pages):
+	    % if page + 1 == current_page:
+	    <li class="active">
+	      % else:
+	    <li>
+	      % end
+	      <a href="/page/{{page + 1}}/">{{page + 1}}</a>
+	    </li>
+	    % end
+	  </ul>
+	</div>
+
+
+	% for entry in entries:
+        <h4><a href="/entry/{{entry.id}}/">{{entry.id}}. {{entry.title}}</a></h4>
+	<h5 style="text-align: right;">{{entry.created_at.strftime( "%Y.%m.%d %H:%M")}} By. {{entry.name}}</h5>
+        <p style="white-space: pre; margin: 1.4em;">{{entry.body}}</p>
+
+	<hr>
+	% end
+
+	<div style="text-align: center;">
+	  <ul class="pagination pagination-lg">
+	    % for page in range( pages):
+	    % if page + 1 == current_page:
+	    <li class="active">
+	      % else:
+	    <li>
+	      % end
+	      <a href="/page/{{page + 1}}/">{{page + 1}}</a>
+	    </li>
+	    % end
+	  </ul>
+	</div>
+
+      </div>
+
+      <div class="jumbotron" id="new">
+        <h1>New Entry</h1>
+	<form method="POST" action="/new/" role="form">
+	  <div class="form-group">
+	    <label for="inputTitle">Title</label>
+	    <input type="text" class="form-control" id="inputTitle" placeholder="Enter Title" name="title">
+	  </div>
+	  <div class="form-group">
+	    <label for="inputName">Name</label>
+	    <input type="text" class="form-control" id="inputName" placeholder="Enter Your Name" name="name">
+	  </div>
+	  <div class="form-group">
+	    <label for="inputPassword">Password</label>
+	    <input type="password" class="form-control" id="inputPassword" placeholder="Enter Remove Password" name="password">
+	  </div>
+	  <div class="form-group">
+	    <label for="inputTitle">Body</label>
+	    <textarea name="body" class="form-control" id="inputBody" rows="5"></textarea>
+	  </div>
+	  <div class="form-group">
+	    <input type="submit" value="Submit" class="btn btn-lg btn-primary btn-block">
+	  </div>
+	</form>
+      </div>
+
+      <div class="jumbotron" id="remove">
+        <h1>Remove Entry</h1>
+	<form method="POST" action="/delete/" role="form">
+	  <div class="form-group">
+	    <label for="inputEntry">Remove Entry Id</label>
+	    <select name="entry_id" class="form-control" id="inputEnt">
+	      % for entry in entries:
+	      <option value="{{entry.id}}">{{entry.id}}</option>
+	      % end
+	    </select>
+	  </div>
+	  <div class="form-group">
+	    <label for="inputPassword">Password</label>
+	    <input type="password" class="form-control" id="inputPassword" placeholder="Enter Remove Password" name="password">
+	  </div>
+	  <div class="form-group">
+	    <input type="submit" value="Remove" class="btn btn-lg btn-warning btn-block">
+	  </div>
+	</form>
+      </div>
+
+
+      <div class="footer">
+        <p>&copy; 2013 mon0.jp.</p>
+      </div>
+
+    </div>
+  </body>
+</html>
